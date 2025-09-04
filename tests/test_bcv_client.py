@@ -1,0 +1,69 @@
+# tests/test_bcv_client.py
+import pytest
+from bs4 import BeautifulSoup
+from get_dolar import BCVClient
+from tests.fixtures.bcv_sample import BCV_SAMPLE_HTML
+from tests.fixtures.bcv_sample_no_usd import BCV_SAMPLE_HTML_NO_USD
+
+class DummyResponse:
+    def __init__(self, text):
+        self.text = text
+    def raise_for_status(self):
+        pass
+
+@pytest.fixture
+def bcv_client(monkeypatch):
+    client = BCVClient(log_level=0)  # nivel 0 para silenciar logs en test
+
+    # Mockear fetch() para que devuelva nuestro HTML de prueba
+    def fake_fetch():
+        return BeautifulSoup(BCV_SAMPLE_HTML, 'html.parser')
+    client.fetch = fake_fetch
+
+    return client
+
+def test_get_all_rates(bcv_client):
+    tasas = bcv_client.get_tasas()
+    assert len(tasas) == 5
+    assert tasas['USD']['valor'] == pytest.approx(151.7627, rel=1e-6)
+    assert tasas['EUR']['valor_display'].startswith("177,0175")
+    assert tasas['USD']['fecha_valor'] == "04/09/2025"
+
+def test_get_single_rate(bcv_client):
+    usd = bcv_client.get_tasas(moneda='USD')
+    assert list(usd.keys()) == ['USD']
+    assert usd['USD']['valor'] == pytest.approx(151.7627, rel=1e-6)
+
+def test_invalid_currency(bcv_client):
+    result = bcv_client.get_tasas(moneda='ABC')
+    assert result == {}
+
+
+@pytest.fixture
+def bcv_client_no_usd(monkeypatch):
+    import logging
+    client = BCVClient(log_level=logging.WARNING)  # permitir WARNING para capturar logs de prueba
+
+    # Mockear fetch() para devolver HTML sin USD
+    def fake_fetch():
+        return BeautifulSoup(BCV_SAMPLE_HTML_NO_USD, 'html.parser')
+    client.fetch = fake_fetch
+
+    return client
+
+def test_missing_usd_logs_warning_and_returns_others(bcv_client_no_usd, caplog):
+    caplog.set_level("WARNING")
+
+    tasas = bcv_client_no_usd.get_tasas()
+
+    # Verifica que USD no está
+    assert 'USD' not in tasas
+
+    # Verifica que las demás monedas sí están
+    for moneda in ['EUR', 'CNY', 'TRY', 'RUB']:
+        assert moneda in tasas
+        assert tasas[moneda]['valor'] is not None
+
+    # Verifica que se logueó un warning sobre USD
+    warnings = [rec.message for rec in caplog.records if rec.levelname == "WARNING"]
+    assert any("USD" in w and "no encontrada" in w.lower() for w in warnings)

@@ -1,7 +1,8 @@
 # tests/test_bcv_client.py
 import pytest
 from bs4 import BeautifulSoup
-from get_dolar import BCVClient
+import logging
+from src.bcv_client import BCVClient
 from tests.fixtures.bcv_sample import BCV_SAMPLE_HTML
 from tests.fixtures.bcv_sample_no_usd import BCV_SAMPLE_HTML_NO_USD
 
@@ -11,15 +12,19 @@ class DummyResponse:
     def raise_for_status(self):
         pass
 
+
 @pytest.fixture
 def bcv_client(monkeypatch):
-    client = BCVClient(log_level=0)  # nivel 0 para silenciar logs en test
+    """Cliente BCV con HTML completo."""
+    client = BCVClient(log_level=0)
+    client.fetch = lambda: BeautifulSoup(BCV_SAMPLE_HTML, 'html.parser')
+    return client
 
-    # Mockear fetch() para que devuelva nuestro HTML de prueba
-    def fake_fetch():
-        return BeautifulSoup(BCV_SAMPLE_HTML, 'html.parser')
-    client.fetch = fake_fetch
-
+@pytest.fixture
+def bcv_client_no_usd(monkeypatch):
+    """Cliente BCV con HTML sin USD."""
+    client = BCVClient(log_level=logging.WARNING)  # permitir WARNING para capturar logs de prueba
+    client.fetch = lambda: BeautifulSoup(BCV_SAMPLE_HTML_NO_USD, 'html.parser')
     return client
 
 def test_get_all_rates(bcv_client):
@@ -38,19 +43,6 @@ def test_invalid_currency(bcv_client):
     result = bcv_client.get_tasas(moneda='ABC')
     assert result == {}
 
-
-@pytest.fixture
-def bcv_client_no_usd(monkeypatch):
-    import logging
-    client = BCVClient(log_level=logging.WARNING)  # permitir WARNING para capturar logs de prueba
-
-    # Mockear fetch() para devolver HTML sin USD
-    def fake_fetch():
-        return BeautifulSoup(BCV_SAMPLE_HTML_NO_USD, 'html.parser')
-    client.fetch = fake_fetch
-
-    return client
-
 def test_missing_usd_logs_warning_and_returns_others(bcv_client_no_usd, caplog):
     caplog.set_level("WARNING")
 
@@ -67,3 +59,15 @@ def test_missing_usd_logs_warning_and_returns_others(bcv_client_no_usd, caplog):
     # Verifica que se logueó un warning sobre USD
     warnings = [rec.message for rec in caplog.records if rec.levelname == "WARNING"]
     assert any("USD" in w and "no encontrada" in w.lower() for w in warnings)
+
+def test_invalid_value_logs_error(monkeypatch, caplog):
+    """Simula valor no numérico para USD."""
+    html_invalid = BCV_SAMPLE_HTML.replace("151,76270000", "VALOR_INVALIDO")
+    client = BCVClient(log_level=0)
+    client.fetch = lambda: BeautifulSoup(html_invalid, 'html.parser')
+
+    caplog.set_level("ERROR")
+    tasas = client.get_tasas()
+    assert 'USD' not in tasas
+    errors = [rec.message for rec in caplog.records if rec.levelname == "ERROR"]
+    assert any("Valor inválido" in e for e in errors)

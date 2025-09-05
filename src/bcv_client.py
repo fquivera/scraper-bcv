@@ -1,3 +1,4 @@
+# scraper-bcv/bcv_client.py
 import logging
 from datetime import datetime
 from typing import Optional, Dict, Any
@@ -168,19 +169,6 @@ class BCVClient:
 def get_tasas_bcv(moneda: Optional[str] = None,
                   log_file: Optional[str] = None,
                   log_level: int = logging.INFO) -> Dict[str, Dict[str, Any]]:
-    """Wrapper de compatibilidad: instancia BCVClient y retorna las tasas."""
+    """Función de compatibilidad: instancia BCVClient y retorna las tasas."""
     client = BCVClient(log_file=log_file, log_level=log_level)
     return client.get_tasas(moneda=moneda)
-
-
-if __name__ == '__main__':
-    # Configuración por defecto del logger y ejecución de ejemplo
-    logger = setup_logger('logs/get_dolar.log', logging.INFO)
-
-    # Todas
-    resultado = get_tasas_bcv(log_file='logs/get_dolar.log', log_level=logging.INFO)
-    logger.info(f"Todas: {resultado}")
-
-    # Solo CNY
-    resultado_cny = get_tasas_bcv(moneda='USD', log_file='logs/get_dolar.log', log_level=logging.INFO)
-    logger.info(f"USD: {resultado_cny}")

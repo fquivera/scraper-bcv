@@ -9,4 +9,4 @@ Cumple con la normativa venezolana: uso educativo y técnico.
 from .bcv_client import BCVClient, get_tasas_bcv
 
 __all__ = ["BCVClient", "get_tasas_bcv"]
-__version__ = "0.1.0"
+__version__ = "v0.1.0"

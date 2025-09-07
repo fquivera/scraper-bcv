@@ -2,7 +2,7 @@
 import pytest
 from bs4 import BeautifulSoup
 import logging
-from src.bcv_client import BCVClient
+from src.scraper_bcv.bcv_client import BCVClient
 from tests.fixtures.bcv_sample import BCV_SAMPLE_HTML
 from tests.fixtures.bcv_sample_no_usd import BCV_SAMPLE_HTML_NO_USD
 

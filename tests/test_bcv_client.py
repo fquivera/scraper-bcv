@@ -1,4 +1,6 @@
 # tests/test_bcv_client.py
+import subprocess
+import sys
 import pytest
 from bs4 import BeautifulSoup
 import logging
@@ -71,3 +73,27 @@ def test_invalid_value_logs_error(monkeypatch, caplog):
     assert 'USD' not in tasas
     errors = [rec.message for rec in caplog.records if rec.levelname == "ERROR"]
     assert any("Valor inválido" in e for e in errors)
+
+@pytest.mark.integration
+def test_cli_with_python_m():
+    """Ejecuta `python -m scraper_bcv` y verifica que no falle."""
+    result = subprocess.run(
+        [sys.executable, "-m", "scraper_bcv", "--log-level", "INFO"],
+        capture_output=True,
+        text=True
+    )
+    # Debe terminar con código 0
+    assert result.returncode == 0, f"CLI falló: {result.stderr}"
+    # Debe contener al menos una moneda en la salida (las monedas van a stderr por los logs INFO)
+    assert any(moneda in result.stderr for moneda in ["USD", "EUR", "CNY", "TRY", "RUB"])
+
+@pytest.mark.integration
+def test_cli_as_installed_command():
+    """Ejecuta el comando `scraper-bcv` y verifica que no falle."""
+    result = subprocess.run(
+        ["scraper-bcv", "--log-level", "INFO"],
+        capture_output=True,
+        text=True
+    )
+    assert result.returncode == 0, f"CLI falló: {result.stderr}"
+    assert any(moneda in result.stderr for moneda in ["USD", "EUR", "CNY", "TRY", "RUB"])

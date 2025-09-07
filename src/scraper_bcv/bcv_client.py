@@ -1,4 +1,4 @@
-# scraper-bcv/bcv_client.py
+# src/bcv_client.py
 import logging
 from datetime import datetime
 from typing import Optional, Dict, Any
@@ -97,7 +97,6 @@ class BCVClient:
         """
         try:
             soup = self.fetch()
-            self.logger.debug("Iniciando extracción dinámica de tasas de referencia")
 
             # === Fecha única ===
             fecha_actualizacion = None
@@ -105,7 +104,6 @@ class BCVClient:
             if fecha_span and fecha_span.get('content'):
                 raw_iso = fecha_span.get('content').strip()
                 fecha_actualizacion = self._iso_to_ddmmyyyy(raw_iso)
-                self.logger.info(f"Fecha de actualización: {fecha_actualizacion}")
             else:
                 self.logger.warning("No se encontró la fecha de actualización.")
 
@@ -140,7 +138,6 @@ class BCVClient:
                     'valor_display': valor_display,
                     'fecha_valor': fecha_actualizacion
                 }
-                self.logger.info(f"{codigo}: {valor_display} Bs.S - Fecha: {fecha_actualizacion}")
 
             # === Verificar si USD está presente (siempre esperado) ===
             if not moneda and 'USD' not in results:

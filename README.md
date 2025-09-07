@@ -46,12 +46,12 @@ pip install scraper-bcv
 Una vez instalado, puedes ejecutarlo directamente:
 
 ```bash
-python -m scraper_bcv
+python -m scraper-bcv
 ```
 
 Opciones disponibles:
 ```bash
-python -m scraper_bcv -m USD --log-level DEBUG --log-file logs/mi_log.log
+python -m scraper-bcv -m USD --log-level DEBUG --log-file logs/mi_log.log
 ```
 
 ---

@@ -1,5 +1,5 @@
 """
-scraper_bcv
+scraper-bcv
 -----------
 
 Librería para obtener tasas oficiales del BCV de forma defensiva y trazable.

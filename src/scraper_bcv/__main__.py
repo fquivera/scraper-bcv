@@ -1,6 +1,6 @@
 """
 Punto de entrada para ejecutar el paquete como script:
-    python -m scraper_bcv
+    python -m scraper-bcv
 """
 
 import argparse

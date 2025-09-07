@@ -11,18 +11,21 @@ Incluye pruebas automatizadas con `pytest` que simulan escenarios reales y cambi
 
 ```
 scraper-bcv/
-├── src/                       # Paquete principal
-│   ├── __init__.py
-│   ├── __main__.py            # Punto de entrada: python -m scraper_bcv
-│   └── bcv_client.py          # Lógica principal del scraper
-├── tests/                     # Pruebas unitarias y fixtures
+.
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+├── requirements-dev.txt
+├── setup.cfg
+├── src/
+│   └── scraper_bcv/       # Paquete principal
+│       ├── __init__.py
+│       ├── __main__.py    # Punto de entrada: python -m scraper_bcv
+│       ├── bcv_client.py  # Lógica principal del scraper       
+├── tests/                 # Pruebas unitarias y fixtures
 │   ├── fixtures/
 │   └── test_bcv_client.py
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── pyproject.toml
-└── setup.cfg
 ```
 
 ---
@@ -46,12 +49,12 @@ pip install scraper-bcv
 Una vez instalado, puedes ejecutarlo directamente:
 
 ```bash
-python -m scraper-bcv
+python -m scraper_bcv
 ```
 
 Opciones disponibles:
 ```bash
-python -m scraper-bcv -m USD --log-level DEBUG --log-file logs/mi_log.log
+python -m scraper_bcv -m USD --log-level DEBUG --log-file logs/mi_log.log
 ```
 
 ---

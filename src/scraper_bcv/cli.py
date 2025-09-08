@@ -1,3 +1,7 @@
+"""
+Módulo CLI para el scraper del BCV.
+Permite ejecutar el scraper desde la línea de comandos.
+"""
 import argparse
 import logging
 from .bcv_client import get_tasas_bcv, setup_logger

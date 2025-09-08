@@ -22,6 +22,7 @@ scraper-bcv/
 │   └── scraper_bcv/       # Paquete principal
 │       ├── __init__.py
 │       ├── __main__.py    # Punto de entrada: python -m scraper_bcv
+│       ├── cli.py         # Módulo CLI para el scraper 
 │       ├── bcv_client.py  # Lógica principal del scraper       
 ├── tests/                 # Pruebas unitarias y fixtures
 │   ├── fixtures/
@@ -37,7 +38,7 @@ scraper-bcv/
 pip install git+https://github.com/fquivera/scraper-bcv.git
 ```
 
-### Desde PyPI (cuando esté publicado)
+### Desde PyPI
 ```bash
 pip install scraper-bcv
 ```

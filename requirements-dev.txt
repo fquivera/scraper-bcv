@@ -1,3 +1,27 @@
+# Primero incluir dependencias de producción
 -r requirements.txt
-pytest>=8.4
 
+# Herramientas de testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Herramientas de linting y formateo
+black>=24.0.0
+isort>=5.13.0
+flake8>=7.0.0
+mypy>=1.8.0
+
+# Herramientas de seguridad
+bandit>=1.7.0
+safety>=2.3.0
+
+# Pre-commit hooks
+pre-commit>=3.6.0
+
+# Versionado semántico
+commitizen>=3.13.0
+
+# Tipos para mypy
+types-requests>=2.31.0
+types-beautifulsoup4>=4.12.0

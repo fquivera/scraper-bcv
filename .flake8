@@ -1,0 +1,16 @@
+[flake8]
+max-line-length = 100
+extend-ignore = E203, W503
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    venv,
+    .pytest_cache,
+    .mypy_cache,
+    src/.coverage
+per-file-ignores =
+    tests/fixtures/bcv_sample.py: E501
+    tests/fixtures/bcv_sample_no_usd.py: E501

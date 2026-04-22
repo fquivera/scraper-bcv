@@ -1,4 +1,5 @@
 .venv/
+venv/
 logs/
 *.log
 __pycache__/
@@ -14,4 +15,8 @@ __pycache__/
 dist/
 build/
 *.egg-info/
-venv/
+venv/.coverage
+src/.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/

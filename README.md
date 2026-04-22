@@ -22,8 +22,8 @@ scraper-bcv/
 │   └── scraper_bcv/       # Paquete principal
 │       ├── __init__.py
 │       ├── __main__.py    # Punto de entrada: python -m scraper_bcv
-│       ├── cli.py         # Módulo CLI para el scraper 
-│       ├── bcv_client.py  # Lógica principal del scraper       
+│       ├── cli.py         # Módulo CLI para el scraper
+│       ├── bcv_client.py  # Lógica principal del scraper
 ├── tests/                 # Pruebas unitarias y fixtures
 │   ├── fixtures/
 │   └── test_bcv_client.py
@@ -103,21 +103,21 @@ Incluye pruebas con HTML real y HTML modificado para validar resiliencia y loggi
 
 ## ⚖️ Aviso Legal
 
-Este software se proporciona únicamente con fines **educativos y técnicos**.  
-No constituye ni reemplaza la publicación oficial de tasas del Banco Central de Venezuela (BCV) ni de ninguna otra autoridad.  
+Este software se proporciona únicamente con fines **educativos y técnicos**.
+No constituye ni reemplaza la publicación oficial de tasas del Banco Central de Venezuela (BCV) ni de ninguna otra autoridad.
 Los datos obtenidos son procesados automáticamente desde fuentes públicas y pueden no reflejar información actualizada, exacta o completa.
 
-El autor **no asume responsabilidad** por el uso que terceros hagan de este software o de los datos que genere.  
+El autor **no asume responsabilidad** por el uso que terceros hagan de este software o de los datos que genere.
 Es responsabilidad exclusiva del usuario verificar la exactitud y vigencia de la información antes de tomar decisiones basadas en ella, así como cumplir con la normativa legal vigente en su país.
 
-Para información oficial sobre tasas de cambio, consulte siempre el portal del BCV:  
+Para información oficial sobre tasas de cambio, consulte siempre el portal del BCV:
 [https://www.bcv.org.ve/](https://www.bcv.org.ve/)
 
 ---
 
 ## 📄 Licencia
 
-Distribuido bajo la licencia MIT con aviso legal adicional.  
+Distribuido bajo la licencia MIT con aviso legal adicional.
 Consulta el archivo [LICENSE](.LICENSE) para más detalles.
 
 ---
@@ -130,7 +130,7 @@ Las contribuciones son bienvenidas mediante **issues** o **pull requests**.
 
 ## 📬 Contacto
 
-Desarrollado por Francisco Antonio Quivera González.  
+Desarrollado por Francisco Antonio Quivera González.
 Abre un issue en el repositorio para dudas o sugerencias.
 
 ---

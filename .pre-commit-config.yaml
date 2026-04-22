@@ -1,0 +1,69 @@
+# .pre-commit-config.yaml
+repos:
+  # Hooks básicos de pre-commit
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        name: Eliminar espacios al final
+      - id: end-of-file-fixer
+        name: Asegurar nueva línea al final
+      - id: check-yaml
+        name: Validar archivos YAML
+      - id: check-added-large-files
+        name: Prevenir archivos grandes
+        args: ['--maxkb=500']
+      - id: check-json
+        name: Validar archivos JSON
+      - id: check-toml
+        name: Validar archivos TOML
+      - id: detect-private-key
+        name: Detectar keys privadas
+
+  # Formateo con Black
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+        name: Formatear código con Black
+        language_version: python3
+
+  # Ordenamiento de imports
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: Ordenar imports
+        args: ["--profile", "black"]
+
+  # Linting con Flake8
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        name: Linting con Flake8
+        args:
+          - "--max-line-length=100"
+          - "--extend-ignore=E203,W503"
+
+  # Verificación de tipos con MyPy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        name: Verificación de tipos
+        args: ["--config-file=mypy.ini", "--ignore-missing-imports"]
+        additional_dependencies:
+          - types-requests
+          - types-beautifulsoup4
+
+  # Commitizen para mensajes de commit convencionales
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.29.0
+    hooks:
+      - id: commitizen
+        name: Validar mensaje de commit
+        stages: [commit-msg]
+      - id: commitizen-branch
+        name: Validar nombre de rama
+        stages: [pre-push]

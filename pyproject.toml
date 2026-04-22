@@ -2,3 +2,75 @@
 requires = ["setuptools>=80.9.0", "wheel", "build", "twine"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "scraper-bcv"
+version = "0.1.0"
+description = "Scraper defensivo para tasas de cambio del BCV"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Francisco Quivera", email = "tu-email@ejemplo.com"}
+]
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+    "commitizen>=3.13.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/fquivera/scraper-bcv"
+Repository = "https://github.com/fquivera/scraper-bcv.git"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[project.scripts]
+scraper-bcv = "scraper_bcv.cli:main"
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src", "tests"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests/"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers"
+testpaths = ["tests"]
+python_files = "test_*.py"
+markers = [
+    "integration: Marca tests como de integración (requieren conexión a internet)",
+    "unit: Marca tests unitarios",
+    "slow: Marca tests que son lentos",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_files = [
+    "pyproject.toml:version",
+]
+update_changelog_on_bump = true
